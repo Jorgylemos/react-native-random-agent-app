@@ -61,7 +61,7 @@ function Home({ navigation }: any) {
     if (state.shouldOpenWebView) {
         return (
             <WebView
-                source={{ uri: 'https://github.com/jorgylemos' }}
+                source={{ uri: 'https://github.com/Jorgylemos/react-native-random-agent-app' }}
             />
         )
     }
