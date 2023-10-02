@@ -1,3 +1,5 @@
+## Básico inicial
+
 ```typescript
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
