@@ -15,13 +15,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jorgylemos.valorantpick"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jorgylemos.valorantpick"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +32,12 @@
       "eas": {
         "projectId": "59f21b9a-1937-4c75-aba5-ff7a2590be41"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/59f21b9a-1937-4c75-aba5-ff7a2590be41"
     }
   }
 }

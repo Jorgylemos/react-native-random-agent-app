@@ -1,7 +1,14 @@
-import { useEffect, useCallback, useState } from 'react'
-import { Image, View, Text, TextInput, Button, StyleSheet } from 'react-native'
+import { Image } from 'expo-image';
+import { useEffect, useCallback, useState, useReducer } from 'react'
+import { View, Text, TextInput, Button, Pressable } from 'react-native'
+import { WebView } from 'react-native-webview'
+
+interface RoleProps {
+    displayName: string;
+}
 
 interface Agents {
+    role: RoleProps;
     displayName: string;
     fullPortrait: string;
 }
@@ -12,10 +19,27 @@ interface AgentsData {
 
 function Home({ navigation }: any) {
 
-    const [qntPlayers, setQntPlayers] = useState('')
-    const [handleError, setHandleEror] = useState('')
+    const initialState = {
+        shouldOpenWebView: false
+    }
+
+    const reducer = (state: any, action: any) => {
+        switch (action.type) {
+            case 'SET_SHOULD_OPEN_WEB_VIEW':
+                return {
+                    ...state,
+                    shouldOpenWebView: action.payload
+                }
+            default:
+                return state
+        }
+    }
+
+    const [qntPlayers, setQntPlayers] = useState<string>('')
+    const [handleError, setHandleEror] = useState<boolean>(false)
 
     const [agents, setAgents] = useState<AgentsData>()
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     const searchAgents = useCallback(async () => {
         const res = await fetch('https://valorant-api.com/v1/agents')
@@ -34,12 +58,21 @@ function Home({ navigation }: any) {
         )
     }
 
+    if (state.shouldOpenWebView) {
+        return (
+            <WebView
+                source={{ uri: 'https://github.com/jorgylemos' }}
+            />
+        )
+    }
+
     const handleSubmit = () => {
         if (parseInt(qntPlayers) < 1 || parseInt(qntPlayers) > 5) {
-            setHandleEror('Digite um valor entre 1 e 5')
+            setHandleEror(true)
             return
         }
 
+        setHandleEror(false)
         const shuffledAgents = shuffleArray(agents?.data);
         const selectedAgents = shuffledAgents.slice(0, parseInt(qntPlayers));
 
@@ -55,32 +88,28 @@ function Home({ navigation }: any) {
         return shuffledArray;
     };
 
-
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Digite quantos players irão jogar: </Text>
-            <Text style={{ fontSize: 10, color: 'red' }}>Obs (Entre 1 e 5)</Text>
+        <View style={{ backgroundColor: 'rgb(9,9,11)', minHeight: '100%', alignItems: 'center' }}>
+            <Image style={{ borderRadius: 8, marginTop: 100, width: 100, height: 100 }} source={{ uri: "https://i.redd.it/w2k5s8br47i51.gif" }} />
+            <Text style={{ color: '#f64f4f', fontSize: 26, fontWeight: 'bold' }}>Valorant Pick</Text>
             <TextInput
-                style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 15 }}
+                style={{ color: '#fff', textAlign: 'center', marginTop: 60, marginBottom: 20, backgroundColor: 'rgb(24, 24, 27)', borderRadius: 4, paddingHorizontal: 20, paddingVertical: 10 }}
                 keyboardType='number-pad'
                 onChangeText={(text) => setQntPlayers(text)}
                 value={qntPlayers}
                 maxLength={5}
             />
-            <Button onPress={handleSubmit} title='Confirmar' />
+            <Button onPress={handleSubmit} color={"#f64f4f"} title='Confirmar' />
 
             {handleError && (
-                <Text style={{ color: 'red' }}>Digite um valor entre 1 e 5!</Text>
+                <Text style={{ color: 'red' }}>Por acaso já viu um time de {qntPlayers}?</Text>
             )}
-
+            <Text style={{ color: '#fff', fontSize: 10, marginTop: 150 }}>{new Date().getFullYear()} &copy; Developed By Jorge Lemos</Text>
+            <Pressable onPress={() => dispatch({ type: 'SET_SHOULD_OPEN_WEB_VIEW', payload: true })}>
+                <Text style={{ color: '#4682BF' }}>Projeto no Github</Text>
+            </Pressable>
         </View>
     )
 }
 
 export default Home
-
-const styles = StyleSheet.create({
-    input: {
-        backgroundColor: '#fff'
-    }
-})
