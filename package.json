@@ -2,6 +2,19 @@
   "name": "valorantpick",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "author": {
+    "email": "jorgylemos@outlook.com",
+    "name": "Jorge Lemos",
+    "url": "https://jorgelemos.netlify.app/"
+  },
+  "repository": {
+    "url": "https://github.com/Jorgylemos/react-native-random-agent-app.git"
+  },
+  "license": "MIT",
+  "contributors": [
+    "MelEmerich",
+    "LuanVitor0"
+  ],
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,9 +23,11 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
+    "@react-native-community/netinfo": "^9.4.1",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
     "expo": "~49.0.13",
+    "expo-av": "^13.6.0",
     "expo-image": "^1.5.1",
     "expo-status-bar": "~1.6.0",
     "expo-updates": "~0.18.14",
